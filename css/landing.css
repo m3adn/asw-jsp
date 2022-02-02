@@ -1,0 +1,59 @@
+body{
+  font-family: 'Questrial', sans-serif;
+  background-color:#000;
+  letter-spacing: 0.1em;
+
+}
+ 
+ 
+ #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      opacity: 50%;
+    }
+
+
+/* Add some content at the bottom of the video/page */
+.content {
+  
+  position:fixed;
+  
+
+ 
+ 
+  border-radius: 20px;
+
+  background: rgba(0, 0, 0, 0.5);
+  
+
+  color: #f1f1f1;
+  width: 100%;
+  height:auto;
+  padding: 20px;
+  margin: auto auto;
+  text-align: center;
+  top:33%;
+}
+
+/* Style the button used to pause/play the video */
+#myBtn {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+#myBtn:hover {
+  background: #ddd;
+  color: black;
+}
+
+#Recovery {
+  margin-top: 20px;
+}
