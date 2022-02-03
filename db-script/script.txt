@@ -6,7 +6,7 @@ CREATE TABLE public."Users" (
 	"ReferralCode" varchar NULL,
 	"Admin" bool NOT NULL,
 	"Balance" float4 NOT NULL DEFAULT 0.00,
-	"ID" int4 NOT NULL DEFAULT nextval('"Users_id_seq"'::regclass),
+	"ID" serial4 NOT NULL,
 	CONSTRAINT "Users_ID_pk" PRIMARY KEY ("ID")
 );
 CREATE UNIQUE INDEX "Users_Email_idx" ON public."Users" USING btree ("Email");
@@ -17,7 +17,7 @@ CREATE TABLE public."Transactions" (
 	"DateTime" varchar NOT NULL,
 	"Coin" varchar NOT NULL,
 	"Units" float4 NOT NULL,
-	"ID" int4 NOT NULL DEFAULT nextval('"Transactions_id_seq"'::regclass),
+	"ID" serial4 NOT NULL,
 	CONSTRAINT "Transactions_ID_pk" PRIMARY KEY ("ID"),
 	CONSTRAINT transactions2_fk FOREIGN KEY ("Buyer") REFERENCES public."Users"("ID"),
 	CONSTRAINT transactions_fk FOREIGN KEY ("Seller") REFERENCES public."Users"("ID")
@@ -29,7 +29,7 @@ CREATE TABLE public."Transactions-Done" (
 	"DateTime" varchar NOT NULL,
 	"Coin" varchar NOT NULL,
 	"Units" float4 NOT NULL,
-	"ID" int4 NOT NULL DEFAULT nextval('"Transactions_id_seq"'::regclass),
+	"ID" serial4 NOT NULL,
 	CONSTRAINT transactions_pk PRIMARY KEY ("ID"),
 	CONSTRAINT transactions_done_fk FOREIGN KEY ("Seller") REFERENCES public."Users"("ID"),
 	CONSTRAINT transactions_done_fk_1 FOREIGN KEY ("Buyer") REFERENCES public."Users"("ID")
