@@ -18,13 +18,7 @@ body{
 
 /* Add some content at the bottom of the video/page */
 .content {
-  
   position:fixed;
-  
-
- 
- 
-  border-radius: 20px;
 
   background: rgba(0, 0, 0, 0.5);
   

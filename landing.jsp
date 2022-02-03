@@ -18,18 +18,18 @@
 <body>
 
   <video autoplay muted loop id="myVideo">
-    <source src="./images/landing.mp4" type="video/mp4">
+    <source src="./images/landing2.mp4" type="video/mp4">
   </video>
 
   <div class="content">
     <h1>SWAPPSTTER.IO</h1>
-    <p>Wellcome to the brand new P2P Exchange!</p>
+    <p>Welcome to the new P2P Exchange!</p>
     <p>In order to trade please do:</p>
     <!-- Use a button to pause/play the video with JavaScript -->
     <button id="myBtn" onclick="myFunction()">Login</button>
     <button id="myBtn" onclick="myFunction()">Register</button>
    
-    <p id="Recovery"> Can't Access the account? </p>
+    <p id="Recovery"><a href="./acc-recovery.jsp">Can't Access your account? </a></p>
   
   </div>
 
