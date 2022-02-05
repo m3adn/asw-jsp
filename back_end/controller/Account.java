@@ -14,15 +14,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
 
 import org.json.JSONObject;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import io.github.cdimascio.dotenv.Dotenv;
 
 import back_end.classes.user.User_Account;
-import back_end.controller.classes.Modem;
 import back_end.model.DAO;
+import back_end.controller.classes.My_JWT;
 
 /**
  *
@@ -40,21 +36,19 @@ public class Account extends HttpServlet {
                                                 req.getParameter("Username"),
                                                 req.getParameter("Password"),
                                                 req.getParameter("PhoneNumber"),
-                                                req.getParameter("ReferralCode"),
-                                                req.getParameter("Admin"));
+                                                req.getParameter("ReferralCode"));
             
             if (dao.insertUser(newUser)) {
-                String msg = "Welcome " + req.getParameter("Username");
-                Modem modem = new Modem();
-                modem.sendMessage(Integer.parseInt(req.getParameter("PhoneNumber")), msg);
-                
                 res.setStatus(HttpServletResponse.SC_CREATED);
-                res.sendRedirect("login.jsp"); // location -> login.jsp
+                res.sendRedirect("index.jsp"); // location -> login
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("resgister.jsp"); // location -> register
             }
         } catch (IllegalArgumentException ex) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            res.sendRedirect("register.jsp"); // location -> register
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
     
     @Override
@@ -69,15 +63,18 @@ public class Account extends HttpServlet {
                         token = cookie.getValue();
                     }
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
             }
-            Algorithm algorithm = Algorithm.HMAC256(Dotenv.load().get("JWT_SECRET"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build();
             
-            JSONObject payload = new JSONObject(verifier.verify(token).getPayload());
+            String ID = new My_JWT().verify(token);
+            if (ID.equals("")) {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
+            }
             
-            User_Account userData = dao.getUserData(payload.getString("ID"));
+            User_Account userData = dao.getUserData(ID);
             if (userData.hasAtributes()) {
                 PrintWriter out = res.getWriter();
                 JSONObject obj = new JSONObject();
@@ -88,15 +85,20 @@ public class Account extends HttpServlet {
                 obj.put("Balance", userData.getBalance());
                 obj.put("Admin", userData.isAdmin());
 
+                res.sendRedirect("user.jsp"); // location -> user
                 res.setStatus(HttpServletResponse.SC_OK);
                 res.setContentType("application/json");
                 out.print(obj);
                 out.flush();
+                
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("user.jsp"); // location -> user
             }
         } catch (JWTVerificationException ex) {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.sendRedirect("index.jsp"); // location -> login
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
 
     @Override
@@ -111,30 +113,37 @@ public class Account extends HttpServlet {
                         token = cookie.getValue();
                     }
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
             }
-            Algorithm algorithm = Algorithm.HMAC256(Dotenv.load().get("JWT_SECRET"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build();
             
-            JSONObject payload = new JSONObject(verifier.verify(token).getPayload());
+            String ID = new My_JWT().verify(token);
+            if (ID.equals("")) {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
+            }
             
             User_Account updateUser = new User_Account(req.getParameter("Email"),
                     req.getParameter("Username"),
                     req.getParameter("Password"),
                     req.getParameter("PhoneNumber"),
-                    "",
-                    "0");
+                    "");
             
-            if (dao.updateUserData(updateUser, payload.getString("ID"))) {
+            if (dao.updateUserData(updateUser, ID)) {
                 res.setStatus(HttpServletResponse.SC_OK);
+                res.sendRedirect("userUpdate.jsp"); // locaion -> userUpdate
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("userUpdate.jsp"); // locaion -> userUpdate
             }
         } catch (JWTVerificationException ex) {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.sendRedirect("index.jsp"); // locaion -> userUpdate
         } catch (IllegalArgumentException ex) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            res.sendRedirect("userUpdate.jsp"); // locaion -> userUpdate
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
     
     @Override
@@ -147,23 +156,32 @@ public class Account extends HttpServlet {
                 for (Cookie cookie : cookies) {
                     if (cookie.getName().equals("Token")) {
                         token = cookie.getValue();
+                        cookie.setValue("");
+                        cookie.setMaxAge(0);
+                        res.addCookie(cookie);
                     }
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
             }
-            Algorithm algorithm = Algorithm.HMAC256(Dotenv.load().get("JWT_SECRET"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build();
+
+            String ID = new My_JWT().verify(token);
+            if (ID.equals("")) {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
+            }
             
-            JSONObject payload = new JSONObject(verifier.verify(token).getPayload());
-            
-            if (dao.deleteUser(payload.getString("ID"))) {
+            if (dao.deleteUser(ID)) {
                 res.setStatus(HttpServletResponse.SC_OK);
-                res.sendRedirect("login.jsp"); // location -> login.jsp
+                res.sendRedirect("index.jsp"); // location -> login
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("index.jsp"); // location -> login
             }
         } catch(JWTVerificationException ex) {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.sendRedirect("index.jsp"); // location -> login
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
 }

@@ -14,16 +14,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
 
-import back_end.model.DAO;
-import back_end.classes.transaction.Transaction;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import back_end.model.DAO;
+import back_end.classes.transaction.Transaction;
+import back_end.controller.classes.My_JWT;
 
 /**
  *
@@ -45,15 +42,18 @@ public class Portfolio extends HttpServlet {
                         token = cookie.getValue();
                     }
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
             }
-            Algorithm algorithm = Algorithm.HMAC256(Dotenv.load().get("JWT_SECRET"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build();
             
-            JSONObject payload = new JSONObject(verifier.verify(token).getPayload());
+            String ID = new My_JWT().verify(token);
+            if (ID.equals("")) {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
+            }
             
-            ArrayList<Transaction> portfolio = dao.getPortfolio(payload.getString("ID"));
+            ArrayList<Transaction> portfolio = dao.getPortfolio(ID);
             if (!portfolio.isEmpty()) {
                 PrintWriter out = res.getWriter();
                 JSONArray array = new JSONArray();
@@ -69,14 +69,17 @@ public class Portfolio extends HttpServlet {
                     array.put(obj);
                     obj.clear();
                 }
-                res.setStatus(HttpServletResponse.SC_OK);
                 res.setContentType("application/json");
+                res.setStatus(HttpServletResponse.SC_OK);
                 out.print(array);
                 out.flush();
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("index.jsp"); // location -> login
             }
         } catch (JWTVerificationException ex) {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.sendRedirect("index.jsp"); // location -> login
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
 }

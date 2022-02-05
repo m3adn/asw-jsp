@@ -10,18 +10,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import back_end.classes.request.Request_Coins;
-import back_end.classes.user.User_Account;
+import back_end.controller.classes.My_JWT;
 import back_end.model.DAO;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import io.github.cdimascio.dotenv.Dotenv;
-import jakarta.servlet.http.Cookie;
-import java.io.PrintWriter;
-import org.json.JSONObject;
 
 /**
  *
@@ -43,23 +38,30 @@ public class Sell extends HttpServlet {
                         token = cookie.getValue();
                     }
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
             }
-            Algorithm algorithm = Algorithm.HMAC256(Dotenv.load().get("JWT_SECRET"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build();
             
-            JSONObject payload = new JSONObject(verifier.verify(token).getPayload());
+            String ID = new My_JWT().verify(token);
+            if (ID.equals("")) {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
+            }
             
-            Request_Coins reqCoins = new Request_Coins(req.getParameter("coin"),
-                    Float.parseFloat(req.getParameter("units")));
+            Request_Coins reqCoins = new Request_Coins(req.getParameter("Coin"),
+                    Float.parseFloat(req.getParameter("Units")));
 
-            if (dao.sellCoins(payload.getString("ID"), reqCoins)) {
+            if (dao.sellCoins(ID, reqCoins)) {
                 res.setStatus(HttpServletResponse.SC_OK);
+                res.sendRedirect("transactions.jsp"); // location -> transactions
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("index.jsp"); // location -> login
             }
         } catch (JWTVerificationException ex) {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.sendRedirect("index.jsp"); // location -> login
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
 }

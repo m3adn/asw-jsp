@@ -69,4 +69,9 @@ public class Transaction {
     public void setBuyer(int buyer) {
         this.buyer = buyer;
     }
+    
+    public boolean hasAtributes () {
+        return this.id != 0 && this.seller != 0 && this.dateTime != null && this.coin != null
+                && this.units != 0;
+    }
 }
