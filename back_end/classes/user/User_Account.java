@@ -33,7 +33,7 @@ public class User_Account {
             this.password = BCrypt.hashpw(_password, BCrypt.gensalt());
             this.phoneNumber = _phoneNumber;
             this.referralCode = _referralCode;
-            this.admin = true;
+            this.admin = false;
         } else {
             throw new IllegalArgumentException("Data not valid!!");
         }
