@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,19 +18,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import back_end.classes.user.User_Account;
 import back_end.model.DAO;
 import back_end.classes.transaction.Transaction;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import org.json.JSONArray;
+import back_end.controller.classes.My_JWT;
 
 /**
  *
@@ -50,48 +47,63 @@ public class Buy extends HttpServlet {
                         token = cookie.getValue();
                     }
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
             }
-            Algorithm algorithm = Algorithm.HMAC256(Dotenv.load().get("JWT_SECRET"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build();
             
-            JSONObject payload = new JSONObject(verifier.verify(token).getPayload());
+            String ID = new My_JWT().verify(token);
+            if (ID.equals("")) {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
+            }
             
-            User_Account user = dao.getUserData(payload.getString("ID"));
-            if (user.hasAtributes()) {
-                float balance = user.getBalance();
+            User_Account userBuyer = dao.getUserData(ID);
+            if (userBuyer.hasAtributes()) {
+                float balance = userBuyer.getBalance();
                 
                 Transaction sell = dao.getTransaction(req.getParameter("SellID"));
-                
-                // https://min-api.cryptocompare.com/documentation
-                // get coin price
-                String url = "https://min-api.cryptocompare.com/data/price?fsym="
-                        + sell.getCoin() + "&tsyms=USD"
-                        + "&api_key=05f56f7cacb7ba7dba8cb8c22b023ae3d24f8506ac73b2dc8aef3400accd741a";
-                String charset = "UTF-8";
-                URLConnection con = new URL(url).openConnection();
-                con.setRequestProperty("Accept-Charset", charset);
-                InputStream response = con.getInputStream();
-                try (Scanner scanner = new Scanner(response)) {
-                    String responseBody = scanner.useDelimiter("\\A").next();
-                    JSONObject obj = new JSONObject(responseBody);
-                    float price = obj.getFloat("USD");
-                
-                    if (balance > price * sell.getUnits()) {
-                        sell.setBuyer(Integer.parseInt(payload.getString("ID")));
-                        if (dao.insertTransactionDone(sell) && 
-                                dao.deleteTransaction(req.getParameter("SellID"))) {
-                            res.setStatus(HttpServletResponse.SC_OK);
+                if (sell.hasAtributes()) {
+                    // https://min-api.cryptocompare.com/documentation
+                    // get coin price
+                    String url = "https://min-api.cryptocompare.com/data/price?fsym="
+                            + sell.getCoin() + "&tsyms=USD"
+                            + "&api_key=05f56f7cacb7ba7dba8cb8c22b023ae3d24f8506ac73b2dc8aef3400accd741a";
+                    String charset = "UTF-8";
+                    URLConnection con = new URL(url).openConnection();
+                    con.setRequestProperty("Accept-Charset", charset);
+                    InputStream response = con.getInputStream();
+                    try ( Scanner scanner = new Scanner(response)) {
+                        String responseBody = scanner.useDelimiter("\\A").next();
+                        JSONObject obj = new JSONObject(responseBody);
+                        float cost = obj.getFloat("USD") * sell.getUnits();
+
+                        if (balance > cost) {
+                            sell.setBuyer(Integer.parseInt(ID));
+                            if (dao.insertTransactionDone(sell)
+                                    && dao.deleteTransaction(req.getParameter("SellID"))
+                                    && dao.changeBalance(sell.getBuyer(), -cost)
+                                    && dao.changeBalance(sell.getSeller(), cost)) {
+                                res.setStatus(HttpServletResponse.SC_OK);
+                                res.sendRedirect("transations.jsp"); // location -> transactions
+                            }
+                        } else {
+                            res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                            res.sendRedirect("transations.jsp"); // location -> transactions
                         }
                     }
-                    res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                } else {
+                    res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                    res.sendRedirect("transactions.jsp"); // location -> transactions
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("transactions.jsp"); // location -> transactions
             }
         } catch (JWTVerificationException ex) {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.sendRedirect("index.jsp"); // location -> login
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
     
     @Override
@@ -106,13 +118,12 @@ public class Buy extends HttpServlet {
                         token = cookie.getValue();
                     }
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
             }
-            Algorithm algorithm = Algorithm.HMAC256(Dotenv.load().get("JWT_SECRET"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build();
             
-            JSONObject payload = new JSONObject(verifier.verify(token).getPayload());
+            new My_JWT().verify(token);
             
             ArrayList<Transaction> transactions = dao.getTransactions();
             if (!transactions.isEmpty()) {
@@ -131,14 +142,17 @@ public class Buy extends HttpServlet {
                     array.put(obj);
                     obj.clear();
                 }
-                res.setStatus(HttpServletResponse.SC_OK);
                 res.setContentType("application/json");
+                res.setStatus(HttpServletResponse.SC_OK);
                 out.print(array);
                 out.flush();
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("index.jsp"); // location -> login
             }
         } catch (JWTVerificationException ex) {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.sendRedirect("index.jsp"); // location -> login
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
 }

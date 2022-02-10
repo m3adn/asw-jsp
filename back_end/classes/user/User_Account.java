@@ -24,19 +24,16 @@ public class User_Account {
                   String _username,
                   String _password,
                   String _phoneNumber,
-                  String _referralCode,
-                  String _admin) {
+                  String _referralCode) {
         
         if (_email != null && _username != null && _password != null &&
-                _phoneNumber != null && _admin != null) {
+                _phoneNumber != null) {
             this.email = _email;
             this.username = _username;
             this.password = BCrypt.hashpw(_password, BCrypt.gensalt());
             this.phoneNumber = _phoneNumber;
             this.referralCode = _referralCode;
-            
-            if (_admin.equals("1")) this.admin = true;
-            else if (_admin.equals("0")) this.admin = false;
+            this.admin = false;
         } else {
             throw new IllegalArgumentException("Data not valid!!");
         }

@@ -10,16 +10,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import back_end.model.DAO;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.http.Cookie;
 
-import org.json.JSONObject;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
+import back_end.model.DAO;
+import back_end.controller.classes.My_JWT;
 
 /**
  *
@@ -41,20 +37,27 @@ public class Deposit extends HttpServlet {
                         token = cookie.getValue();
                     }
                 }
+            } else {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
             }
-            Algorithm algorithm = Algorithm.HMAC256(Dotenv.load().get("JWT_SECRET"));
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build();
             
-            JSONObject payload = new JSONObject(verifier.verify(token).getPayload());
+            String ID = new My_JWT().verify(token);
+            if (ID.equals("")) {
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.sendRedirect("index.jsp"); // location -> login
+            }
             
-            if (dao.deposit(payload.getString("ID"), Float.parseFloat(req.getParameter("Units")))) {
-            res.setStatus(HttpServletResponse.SC_OK);
-        }
+            if (dao.deposit(ID, Float.parseFloat(req.getParameter("Deposit")))) {
+                res.setStatus(HttpServletResponse.SC_OK);
+                res.sendRedirect("deposit.jsp"); // location -> deposit
+            } else {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("deposit.jsp"); // location -> deposit
+            }
         } catch (JWTVerificationException ex) {
-            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.sendRedirect("index.jsp"); // location -> login
         }
-        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
     }
 }
