@@ -4,6 +4,7 @@ body{
     font-family: 'Questrial', sans-serif;
     transition: all 4s;
     
+    
 }
 
 main {
@@ -381,18 +382,23 @@ body {
 
 
   @media (max-width: 1300px) {
+    
+    
+  
     #sidebar {
       margin-left: -17rem;
       
     }
     #sidebar.active {
       margin-left: 0;
+      
     }
     #content {
       width: 100%;
       margin-left: -17rem;
    
       transition: all 1s;
+      
      
       
     }
@@ -401,6 +407,7 @@ body {
       width: calc(100% - 17rem);
    
       margin-left:0rem;
+      
      
     }
 
@@ -409,6 +416,7 @@ body {
         flex-wrap: wrap;
       margin-left:17rem;
       width: 100%;
+      
       
     }
 

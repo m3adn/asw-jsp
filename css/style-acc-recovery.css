@@ -1,8 +1,18 @@
 body {
-    background-color: #F3EBF6;
-    background: linear-gradient(to right, #222837, #fcdebe);
+    background: #507fff54;
+    background-image: url("../images/landing.jpg");
+    position: fixed;
+    letter-spacing: 0.1em;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: fill;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+    text-decoration: none;
+    /*background: linear-gradient(to right, #222837, #fcdebe);*/
     font-family: 'Questrial', sans-serif;
-    
+    backdrop-filter: url(filters.svg#filter) blur(4px) saturate(150%);
     
 }
 
@@ -18,9 +28,16 @@ body {
 }
 
 #title1{
-   position: relative;
-   margin-top: 3rem;
-   color: #222837;
+    position: relative;
+    margin-top: 3rem;
+    color: #222837;
+    color: rgb(250, 233, 0);
+   
+   
+    text-shadow: 1px 1px 1px red,
+      2px 2px 1px red;
+    text-align: center;
+    letter-spacing: 2px;
    
  
 }
@@ -28,17 +45,27 @@ body {
 #title2{
     position: relative;
     color: white;
+    color: rgb(250, 233, 0);
+  
+  
+    text-shadow: 1px 1px 1px red,
+      2px 2px 1px red;
+    text-align: center;
+    letter-spacing: 2px;
     
  }
 
 .main {
-    background-color: #FFFFFF;
+    background-color: #c6e4fff8;
     border-radius: 20px;
     width: 400px;
-    height: 350px;
+    height: 450px;
     margin: 3.5em auto;
     /*box-shadow: 2px 11px 35px 2px rgba(0, 0, 0, 0.14);*/
-    box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.18) ;
+    box-shadow: 0px 5px 20px #000;
+ 
+    justify-content:center;
+    align-items: center;
 }
 
 .sign {
@@ -58,11 +85,11 @@ body {
         letter-spacing: 1px;
         background: rgba(136, 126, 126, 0.04);
         padding: 10px 20px;
-        border: 2px solid rgb(97, 97, 97) !important;
+        border: 2px solid rgb(194, 194, 194) !important;
         border-radius: 20px;
         outline: none;
         box-sizing: border-box;
-        border: 2px solid rgba(117, 117, 117, 0.363);
+        border: 2px solid rgba(155, 155, 155, 0.363);
         margin-bottom: 50px;
         margin-left: 46px;
         text-align: center;
@@ -132,15 +159,15 @@ margin-bottom: 27px;
 }
 
 .un:focus, .pass:focus , .em:focus {
-    border: 2px solid rgba(0, 0, 0, 0.18) !important;
-    
+    border: 2px solid rgba(0, 0, 0, 0.445) !important;
+    transition: all 1s;
 }
 
 .submit {
     cursor: pointer;
     border-radius: 5em;
     color: #fff;
-    background: linear-gradient(to right, #d4d2a5, #d3d1ab);
+    background-color: rgb(221, 207, 10);
     padding-left: 105px;
     padding-right: 105px;
     padding-bottom: 16px;
@@ -170,6 +197,17 @@ a.submit{
     padding-top: 1.5rem;
 }
 
+a:hover#register {
+    color: rgb(145, 145, 145);
+    transition: all 1s;
+}
+
+#register {
+    color: #ff6b6b;
+    font-weight:bold;
+    font-family: 'Questrial', sans-serif;
+}
+
 
 p {
     text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
@@ -193,14 +231,17 @@ a {
 
 a:hover.submit {
     color: rgb(255, 255, 255);
+    transition: all 1s;
 }
 
 a:hover#forgot{
     color: rgb(145, 145, 145);
+    transition: all 1s;
 }
 
 a:hover.title {
     color: rgb(226, 226, 226);
+    transition: all 1s;
 }
 
 @media (max-width: 600px) {

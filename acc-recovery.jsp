@@ -26,9 +26,10 @@
           <p class="sign" align="center">Password Recovery</p>
           <form class="form1">
             <input class="em" type="text" align="center" placeholder="Email">
+            <input class="ref" type="text" align="center" placeholder="Phone Number">
             <a class="submit" align="center">Submit</a>
             <p class="forgot" align="center"><a href="./login.jsp" id="forgot">Got Account? Log in.</p>
-                  
+                <p class="register" align="center"><a href="./register.jsp" id="register">No account? Click to register!</p>      
                       
           </div>
            

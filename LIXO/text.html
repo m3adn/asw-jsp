@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=
+        "width=device-width, initial-scale=1.0">
+    <title>Animated Navbar </title>
+  
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+  
+        h1 {
+            color: green;
+        }
+  
+        h1,
+        h3 {
+            text-align: center;
+        }
+  
+        ul {
+            margin: 0 10%;
+            padding: 10px 0px 10px 100px;
+            display: flex;
+            background: green;
+        }
+  
+        ul li {
+            list-style: none;
+            padding: 10px 20px;
+  
+        }
+  
+        ul li a {
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            position: relative;
+  
+        }
+  
+        ul li a::before {
+            content: "";
+            width: 0px;
+            height: 10px;
+            background: black;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            transition: .5s;
+        }
+  
+        ul li a:hover::before {
+            width: 50%;
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+  
+<body>
+    <h1>GeeksforGeeks</h1>
+  
+    <h3>Animated Navigation Bar Design</h3>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Contribute</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</body>
+  
+</html>
