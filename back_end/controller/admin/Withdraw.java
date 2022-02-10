@@ -17,12 +17,12 @@ import back_end.model.DAO;
  *
  * @author epilif3sotnas
  */
-@WebServlet(name = "Withdraw", urlPatterns = {"/Servlet/Admin/Withdraw"})
+@WebServlet(name = "WithdrawAdmin", urlPatterns = {"/Servlet/Admin/Withdraw"})
 public class Withdraw extends HttpServlet {
     DAO dao = new DAO();
 
     @Override
-    protected void doPost (HttpServletRequest req, HttpServletResponse res)
+    protected void doPut (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         // verify account
         if (dao.verifyWithdraw(req.getParameter("withdrawID"))) {

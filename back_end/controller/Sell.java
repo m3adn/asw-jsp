@@ -15,7 +15,7 @@ import jakarta.servlet.http.Cookie;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import back_end.classes.request.Request_Coins;
-import back_end.controller.classes.My_JWT;
+import back_end.controller.classes.jwt.My_JWT;
 import back_end.model.DAO;
 
 /**
@@ -27,7 +27,7 @@ public class Sell extends HttpServlet {
     private DAO dao = new DAO();
 
     @Override
-    protected void doPut (HttpServletRequest req, HttpServletResponse res)
+    protected void doPost (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         try {
             String token = "";

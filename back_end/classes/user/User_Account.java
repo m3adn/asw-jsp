@@ -48,7 +48,7 @@ public class User_Account {
             boolean _admin) {
         
         if (_id != 0 && _email != null && _username != null && _password != null &&
-                _phoneNumber != null && _admin) {
+                _phoneNumber != null) {
             this.id = _id;
             this.email = _email;
             this.username = _username;
@@ -109,6 +109,6 @@ public class User_Account {
     
     public boolean hasAtributes () {
         return this.id != 0 && this.email != null && this.username != null && this.password != null
-                && this.phoneNumber != null && this.admin;
+                && this.phoneNumber != null;
     }
 }

@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 import back_end.model.DAO;
 import back_end.classes.transaction.Transaction;
-import back_end.controller.classes.My_JWT;
+import back_end.controller.classes.jwt.My_JWT;
 
 /**
  *
@@ -61,13 +61,12 @@ public class Portfolio extends HttpServlet {
 
                 int size = portfolio.size();
                 for (short i = 0; i < size; i++) {
+                    obj.clear();
                     obj.put("ID", portfolio.get(i).getID());
                     obj.put("DateTime", portfolio.get(i).getDateTime());
                     obj.put("Coin", portfolio.get(i).getCoin());
                     obj.put("Units", portfolio.get(i).getUnits());
-
                     array.put(obj);
-                    obj.clear();
                 }
                 res.setContentType("application/json");
                 res.setStatus(HttpServletResponse.SC_OK);
@@ -75,7 +74,7 @@ public class Portfolio extends HttpServlet {
                 out.flush();
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                res.sendRedirect("index.jsp"); // location -> login
+                res.sendRedirect("transactions.jsp"); // location -> login
             }
         } catch (JWTVerificationException ex) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

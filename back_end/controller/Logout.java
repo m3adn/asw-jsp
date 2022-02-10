@@ -21,7 +21,6 @@ public class Logout extends HttpServlet {
     @Override
     protected void doPut (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        String token = "";
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {

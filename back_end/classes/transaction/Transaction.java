@@ -24,6 +24,8 @@ public class Transaction {
             this.dateTime = _dateTime;
             this.coin = _coin;
             this.units = _units;
+        } else {
+            throw new IllegalArgumentException("Data not valid!!");
         }
     }
     
@@ -33,6 +35,8 @@ public class Transaction {
             this.dateTime = _dateTime;
             this.coin = _coin;
             this.units = _units;
+        } else {
+            throw new IllegalArgumentException("Data not valid!!");
         }
     }
     
