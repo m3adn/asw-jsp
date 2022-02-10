@@ -2,17 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package back_end.controller.classes;
+package back_end.controller.classes.jwt;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.json.JSONObject;
 
 /**
  *
@@ -29,7 +26,7 @@ public class My_JWT {
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer("auth0")
                 .build();
-        return new JSONObject(verifier.verify(token).getPayload()).getString("ID");
+        return verifier.verify(JWT.decode(token)).getId();
     }
     
     public String createToken (String ID) {
@@ -37,13 +34,12 @@ public class My_JWT {
                 .directory("/home/epilif3sotnas/NetBeansProjects/ASW/.env")
                 .ignoreIfMalformed()
                 .load();
-        Algorithm alg = Algorithm.HMAC256(dotenv.get("JWT_SECRET"));
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("ID", ID);
-        payload.put("DateTime", LocalDateTime.now().toString());
+        Algorithm algorithm = Algorithm.HMAC256(dotenv.get("JWT_SECRET"));
         String token = JWT.create()
-                .withPayload(payload)
-                .sign(alg);
+                .withJWTId(ID)
+                .withIssuer("auth0")
+                .withIssuedAt(new Date())
+                .sign(algorithm);
         return token;
     }
 }

@@ -6,6 +6,9 @@ package back_end.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,8 +21,8 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import back_end.classes.user.User_Account;
 import back_end.model.DAO;
-import back_end.controller.classes.My_JWT;
-
+import back_end.controller.classes.jwt.My_JWT;
+import back_end.controller.classes.request.Data_Format;
 /**
  *
  * @author epilif3sotnas
@@ -69,7 +72,7 @@ public class Account extends HttpServlet {
             }
             
             String ID = new My_JWT().verify(token);
-            if (ID.equals("")) {
+            if (ID == null) {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 res.sendRedirect("index.jsp"); // location -> login
             }
@@ -84,14 +87,13 @@ public class Account extends HttpServlet {
                 obj.put("PhoneNumber", userData.getPhoneNumber());
                 obj.put("Balance", userData.getBalance());
                 obj.put("Admin", userData.isAdmin());
-
-                res.sendRedirect("user.jsp"); // location -> user
-                res.setStatus(HttpServletResponse.SC_OK);
+                
                 res.setContentType("application/json");
                 out.print(obj);
                 out.flush();
-                
+                res.setStatus(HttpServletResponse.SC_OK);
             } else {
+                System.out.println("Here");
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
                 res.sendRedirect("user.jsp"); // location -> user
             }
@@ -123,26 +125,45 @@ public class Account extends HttpServlet {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 res.sendRedirect("index.jsp"); // location -> login
             }
+            BufferedReader br = new BufferedReader(new InputStreamReader(req.getInputStream()));
             
-            User_Account updateUser = new User_Account(req.getParameter("Email"),
-                    req.getParameter("Username"),
-                    req.getParameter("Password"),
-                    req.getParameter("PhoneNumber"),
+            ArrayList<Data_Format> dataFormated = new Data_Format().format(br.readLine());
+            if (dataFormated.isEmpty()) {
+                res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                res.sendRedirect("userUpdate.jsp"); // location -> userUpdate
+            }
+            String email = new String(),
+                    username = new String(),
+                    password = new String(),
+                    phoneNumber = new String();
+            for (Data_Format each : dataFormated) {
+                switch (each.getName()) {
+                    case "Email" -> { email = each.getValue(); }
+                    case "Username" -> { username = each.getValue(); }
+                    case "Password" -> { password = each.getValue(); }
+                    case "PhoneNumber" -> { phoneNumber = each.getValue(); }
+                }
+            }
+            User_Account updateUser = new User_Account(email,
+                    username,
+                    password,
+                    phoneNumber,
                     "");
             
             if (dao.updateUserData(updateUser, ID)) {
                 res.setStatus(HttpServletResponse.SC_OK);
-                res.sendRedirect("userUpdate.jsp"); // locaion -> userUpdate
+                res.sendRedirect("userUpdate.jsp"); // location -> userUpdate
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                res.sendRedirect("userUpdate.jsp"); // locaion -> userUpdate
+                res.sendRedirect("userUpdate.jsp"); // location -> userUpdate
             }
         } catch (JWTVerificationException ex) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.sendRedirect("index.jsp"); // locaion -> userUpdate
+            res.sendRedirect("index.jsp"); // location -> userUpdate
         } catch (IllegalArgumentException ex) {
+            System.out.println("Failed");
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.sendRedirect("userUpdate.jsp"); // locaion -> userUpdate
+            res.sendRedirect("userUpdate.jsp"); // location -> userUpdate
         }
     }
     

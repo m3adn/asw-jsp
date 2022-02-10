@@ -16,6 +16,8 @@ public class Request_Coins {
         if (_coin != null && _units != 0.0f) {
             this.coin = _coin;
             this.units = _units;
+        } else {
+            throw new IllegalArgumentException("Data not valid!!");
         }
     }
 

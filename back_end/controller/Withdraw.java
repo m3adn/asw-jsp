@@ -15,7 +15,7 @@ import jakarta.servlet.http.Cookie;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import back_end.model.DAO;
-import back_end.controller.classes.My_JWT;
+import back_end.controller.classes.jwt.My_JWT;
 
 /**
  *
@@ -26,7 +26,7 @@ public class Withdraw extends HttpServlet {
     private DAO dao = new DAO();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res)
+    protected void doPost (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         try {
             String token = "";
@@ -48,7 +48,7 @@ public class Withdraw extends HttpServlet {
                 res.sendRedirect("index.jsp"); // location -> login
             }
             
-            if (dao.withdraw(ID, Float.parseFloat(req.getParameter("Units")))) {
+            if (dao.withdraw(ID, Float.parseFloat(req.getParameter("Withdraw")))) {
                 res.setStatus(HttpServletResponse.SC_OK);
                 res.sendRedirect("withdraw.jsp"); // location -> withdraw
             } else {

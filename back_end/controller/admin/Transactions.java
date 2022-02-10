@@ -17,7 +17,7 @@ import back_end.model.DAO;
  *
  * @author epilif3sotnas
  */
-@WebServlet(name = "Transactions", urlPatterns = {"/Servlet/Admin/Transactions"})
+@WebServlet(name = "TransactionsAdmin", urlPatterns = {"/Servlet/Admin/Transactions"})
 public class Transactions extends HttpServlet {
     private DAO dao = new DAO();
     

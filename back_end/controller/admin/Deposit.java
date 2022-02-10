@@ -17,7 +17,7 @@ import back_end.model.DAO;
  *
  * @author epilif3sotnas
  */
-@WebServlet(name = "Deposit", urlPatterns = {"/Servlet/Admin/Deposit"})
+@WebServlet(name = "DepositAdmin", urlPatterns = {"/Servlet/Admin/Deposit"})
 public class Deposit extends HttpServlet {
     private DAO dao = new DAO();
     
