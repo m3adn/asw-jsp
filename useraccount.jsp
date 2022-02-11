@@ -135,13 +135,13 @@
     <div id = "detail-wrap">
     
       
-  <p>Username: <a>Your username</a></p>
+  <p style="color:black">Username: <a>Your username</a></p>
   
-  <p>Email: <a>Your email</a></p>
+  <p style="color:black">Email: <a>Your email</a></p>
 
-  <p>Phone Number: <a>Your phone number</a></p>
+  <p style="color:black">Phone Number: <a>Your phone number</a></p>
 
-  <p>Balance: <a>Your balance</a></p>
+  <p style="color:black">Balance: <a>Your balance</a></p>
 </div>
  
   </section>
