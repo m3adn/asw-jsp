@@ -141,7 +141,7 @@
 
   <p style="color:black">Phone Number: <a>Your phone number</a></p>
 
-  <p style="color:black">Balance: <a>Your balance</a></p>
+  <p style="color:black">Balance: <a>Your balance!</a></p>
 </div>
  
   </section>
