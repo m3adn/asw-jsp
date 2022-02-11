@@ -22,10 +22,10 @@
 <body>
 
   <ul id="menu">
-    <li><a href="#home">In Progress</a></li>
-    <li><a href="#news">In Progress</a></li>
-    <li><a href="#contact">In Progress</a></li>
-    <li><a href="#about">In Progress</a></li>
+    <li><a href="#home">HOME</a></li>
+    <li><a href="#news">ABOUT</a></li>
+    <li><a href="#contact">FAQ</a></li>
+    <li><a href="#about">CONTACT US</a></li>
   </ul>
 
 
@@ -34,8 +34,8 @@
     <p>Welcome to the new P2P Exchange!</p>
     <p>In order to trade please do:</p>
     <!-- Use a button to pause/play the video with JavaScript -->
-    <a href="./login.html"><button id="myBtn" onclick="myFunction()">Login</button></a>
-    <a href="./LIXO/text.html"><button id="myBtn" onclick="myFunction()">Register</button></a>
+    <a href="./login.jsp"><button id="myBtn" onclick="myFunction()">Login</button></a>
+    <a href="./register.jsp"><button id="myBtn" onclick="myFunction()">Register</button></a>
 
     <p id="Recovery"><a id="hola" href="./acc-recovery.jsp">Can't Access your account? </a></p>
 

@@ -233,6 +233,7 @@ body {
     top: 0; right: 0; bottom: 0; left: 0;
 
   height: calc(100% - 166px);
+  vertical-align: baseline;
 
 
 }
@@ -264,7 +265,7 @@ body {
     
 }
 
-.transactions {
+.user-details {
     padding-top: 8px;
     background-color: #1d1d1d;
     border-radius: 5px;
@@ -283,6 +284,7 @@ body {
     
    
     text-align: center;
+    vertical-align:;
 }
 
 .dashboard{
@@ -304,6 +306,17 @@ body {
     margin: auto;
     text-align: center;
     
+}
+
+.user-details > p {
+
+  display:grid;
+
+
+}
+
+#detail-wrap {
+  line-height: 5rem;
 }
 
 #title{
