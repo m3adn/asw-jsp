@@ -1,0 +1,247 @@
+body {
+    background: #507fff54;
+    background-image: url("../images/landing.jpg");
+    position: fixed;
+    letter-spacing: 0.1em;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: fill;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+    text-decoration: none;
+    /*background: linear-gradient(to right, #222837, #fcdebe);*/
+    font-family: 'Questrial', sans-serif;
+    backdrop-filter: url(filters.svg#filter) blur(4px) saturate(150%);
+    
+    
+}
+
+.title-div {
+    position:sticky;
+    margin: auto;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    padding-top: 5rem;
+    
+
+}
+
+#title1{
+   position: relative;
+   margin-top: 3rem;
+   color: #222837;
+   color: rgb(250, 233, 0);
+  
+  
+   text-shadow: 1px 1px 1px red,
+     2px 2px 1px red;
+   text-align: center;
+   letter-spacing: 2px;
+ }
+ 
+
+
+
+#title2{
+    position: relative;
+    color: white;
+    color: rgb(250, 233, 0);
+  
+  
+    text-shadow: 1px 1px 1px red,
+      2px 2px 1px red;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+ 
+
+.main {
+    background-color: #c6e4fff8;
+    border-radius: 20px;
+    width: 400px;
+    height: 420px;
+    margin: 3.5em auto;
+    /*box-shadow: 2px 11px 35px 2px rgba(0, 0, 0, 0.14);*/
+    box-shadow: 0px 5px 20px #000;
+ 
+    justify-content:center;
+    align-items: center;
+    
+}
+
+.sign {
+    padding-top: 40px;
+    /*color: #928779;*/
+    color: #222837;
+    font-weight: bold;
+    font-size: 23px;
+    
+    
+}
+
+.un {
+width: 76%;
+color: rgb(38, 50, 56);
+font-weight: 700;
+font-size: 14px;
+letter-spacing: 1px;
+background: rgba(136, 126, 126, 0.04);
+padding: 10px 20px;
+border: 2px solid rgba(171, 171, 171, 0.18) !important;
+border-radius: 20px;
+outline: none;
+box-sizing: border-box;
+border: 2px solid rgba(0, 0, 0, 0.02);
+margin-bottom: 50px;
+text-align: center;
+margin-bottom: 27px;
+}
+
+form.form1 {
+    padding-top: 40px;
+    
+
+}
+
+.form1{
+    position: relative;
+    justify-content: center;
+    vertical-align: middle;
+    text-align: center;
+}
+.pass {
+        width: 76%;
+color: rgb(38, 50, 56);
+font-weight: 700;
+font-size: 14px;
+letter-spacing: 1px;
+background: rgba(136, 126, 126, 0.04);
+padding: 10px 20px;
+border: 2px solid rgba(171, 171, 171, 0.18) !important;
+border-radius: 20px;
+outline: none;
+box-sizing: border-box;
+border: 2px solid rgba(0, 0, 0, 0.02);
+margin-bottom: 50px;
+
+text-align: center;
+margin-bottom: 27px;
+}
+
+
+.un:focus, .pass:focus {
+    border: 2px solid rgba(0, 0, 0, 0.18) !important;
+    
+    transition: all 1s;
+}
+
+.submit {
+    cursor: pointer;
+    border-radius: 5em;
+    color: #fff;
+    /* linear-gradient(to right, #108c23, #34e71a)
+    background: linear-gradient(to right, #d4d2a5, #d3d1ab);*/
+
+    background-color: rgb(221, 207, 10);
+    padding-left: 105px;
+    padding-right: 105Px;
+    padding-bottom: 16px;
+    padding-top: 16px;
+    font-size: 16px;
+    outline: none;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    width: auto;
+    
+}
+
+a.submit{
+   color: rgb(38, 50, 56);
+   font-weight: bold;
+}
+
+
+
+.forgot {
+
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: rgb(38, 50, 56);
+    padding-top: 2rem;
+}
+
+
+p {
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: #E1BEE7;
+    text-decoration: none;
+
+}
+
+a {
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: #E1BEE7;
+    text-decoration: none;
+}
+
+#forgot {
+    color: #ff6b6b;
+    font-weight:bold;
+    font-family: 'Questrial', sans-serif;
+}
+
+#register {
+    color: #ff6b6b;
+    font-weight:bold;
+    font-family: 'Questrial', sans-serif;
+}
+
+a:hover.submit {
+    color: rgb(255, 255, 255);
+    transition: all 1s;
+}
+
+a:hover#forgot{
+    color: rgb(145, 145, 145);
+    transition: all 1s;
+}
+
+a:hover#register {
+    color: rgb(145, 145, 145);
+    transition: all 1s;
+}
+
+a:hover.title {
+    color: rgb(226, 226, 226);
+    transition: all 1s;
+}
+
+@media (max-width: 600px) {
+    .main {
+        border-radius: 20px;
+    
+    }
+
+
+
+    @font-face {
+        font-family: 'On-AirInline';
+        src: url('fonts/on-air-inline-webfont.eot');
+        src: url('fonts/on-air-inline-webfont.eot?#iefix') format('embedded-opentype'),
+             url('fonts/on-air-inline-webfont.woff') format('woff'),
+             url('fonts/on-air-inline-webfont.ttf') format('truetype'),
+             url('fonts/on-air-inline-webfont.svg#On-AirInline') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'On-AirRegular';
+        src: url('fonts/on-air-regular-webfont.eot');
+        src: url('fonts/on-air-regular-webfont.eot?#iefix') format('embedded-opentype'),
+             url('fonts/on-air-regular-webfont.woff') format('woff'),
+             url('fonts/on-air-regular-webfont.ttf') format('truetype'),
+             url('fonts/on-air-regular-webfont.svg#OnAirRegular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
