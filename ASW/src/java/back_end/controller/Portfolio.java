@@ -53,10 +53,10 @@ public class Portfolio extends HttpServlet {
                 res.sendRedirect("index.jsp"); // location -> login
             }
             
+            ArrayList<String> ar = new ArrayList<>();
             ArrayList<Transaction> portfolio = dao.getPortfolio(ID);
             if (!portfolio.isEmpty()) {
                 PrintWriter out = res.getWriter();
-                JSONArray array = new JSONArray();
                 JSONObject obj = new JSONObject();
 
                 int size = portfolio.size();
@@ -66,11 +66,11 @@ public class Portfolio extends HttpServlet {
                     obj.put("DateTime", portfolio.get(i).getDateTime());
                     obj.put("Coin", portfolio.get(i).getCoin());
                     obj.put("Units", portfolio.get(i).getUnits());
-                    array.put(obj);
+                    ar.add(obj.toString());
                 }
                 res.setContentType("application/json");
                 res.setStatus(HttpServletResponse.SC_OK);
-                out.print(array);
+                out.print(ar);
                 out.flush();
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);

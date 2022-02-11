@@ -353,7 +353,6 @@ public class DAO {
                         data.getString("DateTime"),
                         data.getString("Coin"),
                         data.getFloat("Units"));
-                    
                     transactions.add(transaction);
                 }
             } catch (SQLException ex) {}

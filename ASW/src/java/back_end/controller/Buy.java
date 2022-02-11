@@ -116,9 +116,9 @@ public class Buy extends HttpServlet {
             ArrayList<Transaction> transactions = dao.getTransactions();
             if (!transactions.isEmpty()) {
                 PrintWriter out = res.getWriter();
-                JSONArray array = new JSONArray();
                 JSONObject obj = new JSONObject();
 
+                ArrayList<String> ar = new ArrayList<>();
                 int size = transactions.size();
                 for (short i = 0; i < size; i++) {
                     obj.clear();
@@ -127,11 +127,11 @@ public class Buy extends HttpServlet {
                     obj.put("DateTime", transactions.get(i).getDateTime());
                     obj.put("Coin", transactions.get(i).getCoin());
                     obj.put("Units", transactions.get(i).getUnits());
-                    array.put(obj);
+                    ar.add(obj.toString());
                 }
                 res.setContentType("application/json");
                 res.setStatus(HttpServletResponse.SC_OK);
-                out.print(array);
+                out.print(ar);
                 out.flush();
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
