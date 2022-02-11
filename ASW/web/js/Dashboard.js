@@ -47,6 +47,13 @@ $.ajax({
     type: 'GET',
     success: function (result) {
         console.log("Coins to Buy: " + JSON.stringify(result));
+        
+        for (let each of result) {
+            $( "table#CoinsAvailable" ).append( "<tr><th>" + each.Seller + "</th>" + 
+                    "<th>" + each.DateTime + "</th>" +
+                    "<th>" + each.Coin + "</th>" +
+                    "<th>" + each.Units + "</th></tr>");
+        }
     },
     error: function () {
         console.log("Coins to Buy: Failed");
@@ -58,6 +65,11 @@ $.ajax({
     type: 'GET',
     success: function (result) {
         console.log("Portfolio: " + JSON.stringify(result));
+        
+        for (let each of result) {
+            $( "table#portfolio" ).append( "<tr><th>" + each.DateTime + "</th><th>" + each.Coin 
+                    + "</th><th>" + each.Units + "</th></tr>");
+        }
     },
     error: function () {
         console.log("Portfolio: Failed");

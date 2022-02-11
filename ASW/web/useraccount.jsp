@@ -7,19 +7,18 @@
     <meta name='viewport' content='width=device-width, initial-scale=1', user-scalable=yes">
     <link rel="stylesheet" href="bootstrap-5.1.3-dist/css/bootstrap.min.css"/>
     <link href="bootstrap-5.1.3-dist/css/bootstrap-theme.css" rel="stylesheet" />
-    <link rel='stylesheet' type='text/css' media='screen' href='./css/dashboard.css'> 
+    <link rel='stylesheet' type='text/css' media='screen' href='./css/useraccount.css'> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">  </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    
+    <script src='./js/main.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.esm.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/helpers.esm.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
 
 </head>
 <body>
@@ -83,17 +82,12 @@
       </a>
     </li>
     <li class="nav-item">
-      <a id="Logout" href="#" class="nav-link text-dark font-italic">
+      <a href="#" class="nav-link text-dark font-italic">
         <i class="fa fa-cogs mr-3 text-primary fa-fw" aria-hidden="true"></i>
         Log Out
       </a>
     </li>
-    <li class="nav-item">
-      <a id="DeleteAccount" href="#" class="nav-link text-dark font-italic">
-        <i class="fa fa-solid fa-trash mr-3 text-primary" aria-hidden="true"></i>
-        Delete Account
-      </a>
-    </li>
+    
   </ul>
   
 
@@ -104,7 +98,7 @@
 
   
           
-<div class="body">
+<div class="body">  
   
   <div class="user-dash">
   
@@ -117,7 +111,7 @@
 </div>
 
   <div id="profile">
-    <a href="./useraccount.jsp"><img src="./images/profile.png" width="auto" height="30px"> </a>
+    <a href=""><img src="./images/profile.png" width="auto" height="30px"> </a>
   
     </div>
     <div id="profile">
@@ -126,44 +120,31 @@
   </div>
 </div>
 
-<div id="Welcome" class="fw-bold text-center fs-1"></div>
-<div id="Balance" class="fw-bold text-center fs-2"></div>
+
 
   <div class="page-content p-5" id="content">
      
 
    
 <div class="dash-principal">
+
+  <section class="user-details">
+
+    <h1 id="title">Account details</h1>
     
+    <div id = "detail-wrap">
     
-  <section id="transactions1">
-    <h1 id="title">Your Portfolio</h1>
-    <div id="Wallet">
       
-  <table id="portfolio">
-    <tr>
-      <th>Date Time</th>
-      <th>Coin</th>
-      <th>Units</th>
-    </tr>
-  </table>
-      </div>
+  <p style="color:black">Username: <a id="Username">Your username</a></p>
+  
+  <p style="color:black">Email: <a id="Email">Your email</a></p>
+
+  <p style="color:black">Phone Number: <a id="PhoneNumber">Your phone number</a></p>
+
+  <p style="color:black">Balance: <a id="Balance">Your balance</a></p>
+</div>
+ 
   </section>
-<br>
-<section id="transactions2">
-  <h1 id="title">Transactions Available</h1>  
-  <div id="Wallet">
-    
-<table id="CoinsAvailable">
-  <tr>
-      <th>Seller</th>
-      <th>Date Time</th>
-      <th>Coin</th>
-      <th>Units</th>
-  </tr>
-</table>
-    </div>
-</section>
 <br>
 
 
@@ -202,6 +183,5 @@
   
 </footer>
 
-<script src='./js/main.js'></script>
-<script src="./js/Dashboard.js"></script>
+<script src="./js/User.js"></script>
 </html>

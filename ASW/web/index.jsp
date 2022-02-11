@@ -22,10 +22,10 @@
 <body>
 
   <ul id="menu">
-    <li><a href="#home">In Progress</a></li>
-    <li><a href="#news">In Progress</a></li>
-    <li><a href="#contact">In Progress</a></li>
-    <li><a href="#about">In Progress</a></li>
+    <li><a href="#home">HOME</a></li>
+    <li><a href="#news">ABOUT</a></li>
+    <li><a href="#contact">FAQ</a></li>
+    <li><a href="#about">CONTACT US</a></li>
   </ul>
 
 
