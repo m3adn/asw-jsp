@@ -18,7 +18,7 @@ import java.util.Properties;
  * @author epilif3sotnas
  */
 public class Email {
-    private final String from = "pmestre@utad.pt";
+    private final String from = "EmailToSend@utad.pt";
     private final String host = "localhost";
     
     public boolean sendEmail (String to) throws MessagingException {

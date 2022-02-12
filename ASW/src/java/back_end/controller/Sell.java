@@ -40,13 +40,11 @@ public class Sell extends HttpServlet {
                 }
             } else {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
             String ID = new My_JWT().verify(token);
             if (ID.equals("")) {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
             Request_Coins reqCoins = new Request_Coins(req.getParameter("Coin"),
@@ -54,14 +52,11 @@ public class Sell extends HttpServlet {
 
             if (dao.sellCoins(ID, reqCoins)) {
                 res.setStatus(HttpServletResponse.SC_OK);
-                res.sendRedirect("transactions.jsp"); // location -> transactions
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                res.sendRedirect("index.jsp"); // location -> login
             }
         } catch (JWTVerificationException ex) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.sendRedirect("index.jsp"); // location -> login
         }
     }
 }

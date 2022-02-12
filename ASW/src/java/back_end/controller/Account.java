@@ -93,13 +93,11 @@ public class Account extends HttpServlet {
                 out.flush();
                 res.setStatus(HttpServletResponse.SC_OK);
             } else {
-                System.out.println("Here");
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                res.sendRedirect("user.jsp"); // location -> user
             }
         } catch (JWTVerificationException ex) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.sendRedirect("index.jsp"); // location -> login
+            res.sendRedirect("../index.jsp"); // location -> login
         }
     }
 
@@ -117,7 +115,6 @@ public class Account extends HttpServlet {
                 }
             } else {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
             String ID = new My_JWT().verify(token);
@@ -130,7 +127,6 @@ public class Account extends HttpServlet {
             ArrayList<Data_Format> dataFormated = new Data_Format().format(br.readLine());
             if (dataFormated.isEmpty()) {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                res.sendRedirect("userUpdate.jsp"); // location -> userUpdate
             }
             String email = new String(),
                     username = new String(),
@@ -152,18 +148,13 @@ public class Account extends HttpServlet {
             
             if (dao.updateUserData(updateUser, ID)) {
                 res.setStatus(HttpServletResponse.SC_OK);
-                res.sendRedirect("userUpdate.jsp"); // location -> userUpdate
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                res.sendRedirect("userUpdate.jsp"); // location -> userUpdate
             }
         } catch (JWTVerificationException ex) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.sendRedirect("index.jsp"); // location -> userUpdate
         } catch (IllegalArgumentException ex) {
-            System.out.println("Failed");
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.sendRedirect("userUpdate.jsp"); // location -> userUpdate
         }
     }
     

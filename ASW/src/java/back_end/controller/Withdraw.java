@@ -39,25 +39,20 @@ public class Withdraw extends HttpServlet {
                 }
             } else {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
             String ID = new My_JWT().verify(token);
             if (ID.equals("")) {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
-            if (dao.withdraw(ID, Float.parseFloat(req.getParameter("Withdraw")))) {
+            if (dao.changeBalance(Integer.parseInt(ID), -Float.parseFloat(req.getParameter("Withdraw")))) {
                 res.setStatus(HttpServletResponse.SC_OK);
-                res.sendRedirect("withdraw.jsp"); // location -> withdraw
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                res.sendRedirect("withdraw.jsp"); // location -> withdraw
             }
         } catch (JWTVerificationException ex) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.sendRedirect("index.jsp"); // location -> login
         }
     }
 }

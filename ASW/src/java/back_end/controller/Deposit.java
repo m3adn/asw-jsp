@@ -39,25 +39,20 @@ public class Deposit extends HttpServlet {
                 }
             } else {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
             String ID = new My_JWT().verify(token);
             if (ID.equals("")) {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
-            if (dao.deposit(ID, Float.parseFloat(req.getParameter("Deposit")))) {
+            if (dao.changeBalance(Integer.parseInt(ID), Float.parseFloat(req.getParameter("Deposit")))) {
                 res.setStatus(HttpServletResponse.SC_OK);
-                res.sendRedirect("deposit.jsp"); // location -> deposit
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                res.sendRedirect("deposit.jsp"); // location -> deposit
             }
         } catch (JWTVerificationException ex) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.sendRedirect("index.jsp"); // location -> login
         }
     }
 }

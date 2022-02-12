@@ -5,10 +5,6 @@
 package back_end.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Scanner;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import jakarta.servlet.ServletException;
@@ -20,7 +16,6 @@ import jakarta.servlet.http.Cookie;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 import back_end.classes.user.User_Account;
 import back_end.model.DAO;
@@ -50,13 +45,11 @@ public class Buy extends HttpServlet {
                 }
             } else {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
             String ID = new My_JWT().verify(token);
             if (ID.equals("")) {
                 res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                res.sendRedirect("index.jsp"); // location -> login
             }
             
             User_Account userBuyer = dao.getUserData(ID);
@@ -73,24 +66,18 @@ public class Buy extends HttpServlet {
                                 && dao.changeBalance(sell.getBuyer(), -cost)
                                 && dao.changeBalance(sell.getSeller(), cost)) {
                             res.setStatus(HttpServletResponse.SC_OK);
-                            res.sendRedirect("transations.jsp"); // location -> transactions
                         }
                     } else {
                         res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-                        res.sendRedirect("transations.jsp"); // location -> transactions
                     }
                 } else {
-                    System.out.println("Here2");
                     res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                    res.sendRedirect("transactions.jsp"); // location -> transactions
                 }
             } else {
                 res.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                //res.sendRedirect("transactions.jsp"); // location -> transactions
             }
         } catch (JWTVerificationException ex) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.sendRedirect("index.jsp"); // location -> login
         }
     }
     

@@ -214,38 +214,6 @@ public class DAO {
         disconnect();
         return false;
     }
-    
-    public boolean deposit (String ID, float deposit) {
-        if (connect()) {
-            String sql = "update " + TABLE_USERS + " set \"Balance\"=\"Balance\" + " + deposit
-                    + " where \"ID\"='" + ID + "';";
-            try {
-                PreparedStatement stm = con.prepareStatement(sql);
-                if (stm.executeUpdate() > 0) {
-                    disconnect();
-                    return true;
-                }
-            } catch (SQLException ex) {}
-        }
-        disconnect();
-        return false;
-    }
-
-    public boolean withdraw (String ID, float withdraw) {
-        if (connect()) {
-            String sql = "update " + TABLE_USERS + " set \"Balance\"=\"Balance\" - " + withdraw
-                    + " where \"ID\"='" + ID + "';";
-            try {
-                PreparedStatement stm = con.prepareStatement(sql);
-                if (stm.executeUpdate() > 0) {
-                    disconnect();
-                    return true;
-                }
-            } catch (SQLException ex) {}
-        }
-        disconnect();
-        return false;
-    }
 
     // Table Transactions-Done
     public boolean insertTransactionDone (Transaction transaction) {
